@@ -15,7 +15,6 @@ def signupfunc(request):
             return render(request, 'signup.html', {'some':100})
         except IntegrityError:
                 return render(request, 'signup.html', {'error':'このユーザーは既に登録されています'})
-            
     return render(request, 'signup.html', {'some':100})
 
 def loginfunc(request):
@@ -32,5 +31,5 @@ def loginfunc(request):
     return render(request, 'login.html', {'context':'get method'})
 
 def listfunc(request):
-    object_list = BoardModel.object.all()#BoardModelのオブジェクトすべてをobject_list(変数)に入れることができる
+    object_list = BoardModel.objects.all()#BoardModelのオブジェクトすべてをobject_list(変数)に入れることができる
     return render(request, 'list.html', {'object_list':object_list})
