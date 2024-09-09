@@ -1,12 +1,33 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User#ユーザー機能のライブラリ
-
-
-# Create your views here.
+from django.db import IntegrityError
+from django.contrib.auth import authenticate, login
+from django.shortcuts import redirect
 
 def signupfunc(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
-        user = User.objects.create_user("username", "", password)
+        try:
+            user = User.objects.create_user(username, ' ', password)#ユーザー保存先
+            return render(request, 'signup.html', {'some':100})
+        except IntegrityError:
+                return render(request, 'signup.html', {'error':'このユーザーは既に登録されています'})
+            
     return render(request, 'signup.html', {'some':100})
+
+def loginfunc(request):
+    if request.method == 'POST':
+        username = request.POST["username"]
+        password = request.POST["password"]
+        user = authenticate(request, username=username, password=password)
+        if user is not None:#上の入力でユーザーがいる場合（NONEではない場合）
+            login(request, user)
+            return render(request, 'login.html', {'context':'logged in'})
+        else:#いない場合
+            return render(request, 'login.html', {'context':'Not logged in'})
+    #とりあえずリダイレクトで返す文
+    return render(request, 'login.html', {'context':'get method'})
+
+def listfunc(request):
+    return render(request, 'list.html', {})
