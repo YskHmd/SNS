@@ -3,6 +3,8 @@ from django.contrib.auth.models import User#ユーザー機能のライブラリ
 from django.db import IntegrityError
 from django.contrib.auth import authenticate, login
 from django.shortcuts import redirect
+from .models import BoardModel
+
 
 def signupfunc(request):
     if request.method == 'POST':
@@ -30,4 +32,5 @@ def loginfunc(request):
     return render(request, 'login.html', {'context':'get method'})
 
 def listfunc(request):
-    return render(request, 'list.html', {})
+    object_list = BoardModel.object.all()#BoardModelのオブジェクトすべてをobject_list(変数)に入れることができる
+    return render(request, 'list.html', {'object_list':object_list})
