@@ -116,13 +116,17 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = 'sta/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'#ベースディレクトリーにある'staticfiles'を参照
+STATICFILES_DIRS =[str(BASE_DIR / 'static')]#アプリが複雑化した時に複数の場所を指定できる
+# =[str(BASE_DIR / 'static', BASE_DIR / 'static/pay' )]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+MEDIA_URL = 'medi/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-MEDIA_URL = 'medi/'
+LOGIN_URL = 'login'

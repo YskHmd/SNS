@@ -22,6 +22,9 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('boardapp.urls'))
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) \
+  + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 #pathと同じ読み方で、settingsのMEDIA_URL（'medi/'）の情報をとってきた時に
-#settingsのMEDIA_ROOTから画像をとってくる
+#settingsのMEDIA_ROOTから画像をとってくる。２つ目も同じ。
+#２つ以上つける場合はバックスラッシュ必要
+

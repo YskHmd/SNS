@@ -7,6 +7,8 @@
 {% endblock header %}
 
 {% block content %}
+
+{% if user.is_authenticated %}<!trueかFalseで返ってくる。Trueは下記実行>
 <div class='container'>
     {% for item in object_list %}<!views経由のmodel>
     <div class="alert alert-success" role="alert">
@@ -17,4 +19,8 @@
     </div>
     {%endfor%}
 </div>
+{% else %}<!Falseの場合>
+Please login
+{% endif %}
+
 {% endblock content %}
