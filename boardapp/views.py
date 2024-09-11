@@ -1,10 +1,11 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User#ユーザー機能のライブラリ
 from django.db import IntegrityError
-from django.contrib.auth import authenticate, login
-from django.shortcuts import redirect
+from django.contrib.auth import authenticate, login, logout
+from django.shortcuts import redirect, get_object_or_404
 from .models import BoardModel
 from django.contrib.auth.decorators import login_required
+
 
 
 
@@ -36,3 +37,13 @@ def loginfunc(request):
 def listfunc(request):
     object_list = BoardModel.objects.all()#BoardModelのオブジェクトすべてをobject_list(変数)に入れることができる
     return render(request, 'list.html', {'object_list':object_list})
+
+def logoutfunc(request):
+    logout(request)
+    return redirect('login')
+    # Redirect to a success page.
+
+def detailfunc(request, pk):#urlsのpk 
+    object = get_object_or_404(BoardModel, pk=pk)#右側のpkがurlsに行く
+    return render(request, 'detail.html', {'object':object})
+    #右側のobjectが1行上のobject（対象として持ってくるデータ）左がHTMLに表示する名前

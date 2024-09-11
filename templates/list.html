@@ -12,12 +12,13 @@
 <div class='container'>
     {% for item in object_list %}<!views経由のmodel>
     <div class="alert alert-success" role="alert">
-        <p>タイトル:{{ item.title }}</p><!modelsやつを引っ張ってくる>
+        <p>タイトル:<a href="{% url 'detail' item.pk %}">{{ item.title }}</a></p><!modelsやつを引っ張ってくる>
         <p>投稿者:{{ item.author }}</p>
         <a class="btn btn-primary " role="button" aria-disabled="true">Primary link</a>
         <a class="btn btn-secondary " role="button" aria-disabled="true">Link</a>
     </div>
     {%endfor%}
+    <a class="btn btn-dark" href="{% url 'logout' %}">Logout</a>
 </div>
 {% else %}<!Falseの場合>
 Please login
