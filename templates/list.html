@@ -14,8 +14,8 @@
     <div class="alert alert-success" role="alert">
         <p>タイトル:<a href="{% url 'detail' item.pk %}">{{ item.title }}</a></p><!modelsやつを引っ張ってくる>
         <p>投稿者:{{ item.author }}</p>
-        <a class="btn btn-primary " role="button" aria-disabled="true">Primary link</a>
-        <a class="btn btn-secondary " role="button" aria-disabled="true">Link</a>
+        <a class="btn btn-primary disabled"  role="button" aria-disabled="true">GOOD{{item.good}}件</a>
+        <a class="btn btn-secondary disabled"  role="button" aria-disabled="true">READ{{item.read}}人</a>
     </div>
     {%endfor%}
     <a class="btn btn-dark" href="{% url 'logout' %}">Logout</a>
