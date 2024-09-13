@@ -5,10 +5,10 @@
 <form method="POST" enctype="multipart/form-data">{% csrf_token %}
 <p>Title:<input type="text" name="title"></p>
 <p>Content:<input type="text" name="content"></p>
-<p><input type="file" name "sns_image"></p>
+<p><input type="file" name="sns_image"></p>
 <input type="hidden" name="author" value="{{user.username}}">
 
-<input type="submit" value="create">
+<input type="submit" value="投稿">
 </form>
 {% else %}<!Falseの場合>
 <p>Please login:<a href='login'></p>

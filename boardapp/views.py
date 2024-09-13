@@ -72,3 +72,7 @@ class BoardCreate(CreateView):#ClassBasedView
     fields = ('title', 'content', 'sns_image')
     success_url = reverse_lazy('list')
     
+    def form_valid(self, form):
+        form.instance.author = self.request.user  # 投稿者をログインユーザーに設定
+        return super().form_valid(form)
+    
