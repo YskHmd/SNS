@@ -6,7 +6,8 @@ from django.shortcuts import redirect, get_object_or_404
 from .models import BoardModel
 from django.contrib.auth.decorators import login_required
 from django.views.generic import CreateView
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
+from django.contrib import messages  # メッセージフレームワークのインポート
 
 
 
@@ -15,11 +16,12 @@ def signupfunc(request):
         username = request.POST['username']
         password = request.POST['password']
         try:
-            user = User.objects.create_user(username, ' ', password)#ユーザー保存先
-            return render(request, 'signup.html', {'some':100})
+            user = User.objects.create_user(username, '', password)
+            messages.success(request, 'ユーザー登録が完了しました。ログインしてください。')
+            return redirect('login')  # ログインページにリダイレクト
         except IntegrityError:
-                return render(request, 'signup.html', {'error':'このユーザーは既に登録されています'})
-    return render(request, 'signup.html', {'some':100})
+            return render(request, 'signup.html', {'error': 'このユーザーは既に登録されています'})
+    return render(request, 'signup.html')
 
 def loginfunc(request):
     if request.method == 'POST':
@@ -69,10 +71,21 @@ def readfunc(request, pk):#初めては、押せる＋ユーザー名記録。�
 class BoardCreate(CreateView):#ClassBasedView
     template_name = 'create.html'
     model = BoardModel
-    fields = ('title', 'content', 'sns_image')
+    fields = ('content', 'sns_image')
     success_url = reverse_lazy('list')
     
     def form_valid(self, form):
         form.instance.author = self.request.user  # 投稿者をログインユーザーに設定
         return super().form_valid(form)
+    
+@login_required
+def deletefunc(request, pk):
+    post = get_object_or_404(BoardModel, pk=pk)
+
+    # 投稿者チェック
+    if request.user.username == post.author:
+        post.delete()
+        return redirect('list')
+    else:
+        return redirect('detail', pk=pk)  # 投稿者でない場合、詳細ページに戻る
     

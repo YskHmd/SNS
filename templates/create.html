@@ -1,17 +1,28 @@
 {% extends 'base.html' %}
 
+{% load static %} 
+
+{% block customcss %}
+<link href="{% static 'style.css' %}" rel="stylesheet">
+{% endblock customcss %}
+
 {% block content %}
-{% if user.is_authenticated %}<!trueかFalseで返ってくる。Trueは下記実行>
-<form method="POST" enctype="multipart/form-data">{% csrf_token %}
-<p>Title:<input type="text" name="title"></p>
-<p>Content:<input type="text" name="content"></p>
-<p><input type="file" name="sns_image"></p>
-<input type="hidden" name="author" value="{{user.username}}">
+{% if user.is_authenticated %}
+<div class="container">
+  <h1>Create new post</h1>
+  <form method="POST" enctype="multipart/form-data">{% csrf_token %}
+    <p><textarea name="content" rows="3" cols="40" placeholder="Share your thoughts"></textarea></p>
+    <p><input type="file" name="sns_image"></p>
+    <input type="hidden" name="author" value="{{ user.username }}">
+    <input type="submit" value="POST">
+  </form>
+  <div class="mt-4">
+    <a href="{% url 'list' %}" class="btn btn-sm btn-secondary">BACK</a>
+  </div>
+  
 
-<input type="submit" value="投稿">
-</form>
-{% else %}<!Falseの場合>
-<p>Please login:<a href='login'></p>
+</div>
+{% else %}
+<p>Please login: <a href="{% url 'login' %}">HERE</a></p>
 {% endif %}
-
 {% endblock content %}
