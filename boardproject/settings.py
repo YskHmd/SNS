@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-z6vjl4$&i_ew_=fh72-y*$j@yfof0yjh_u7jpute)cc0m$@7gm
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['13.208.192.208', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['13.208.192.208', 'localhost', '127.0.0.1', 'hamada-dev.com', 'www.hamada-dev.com']
 
 
 # Application definition
