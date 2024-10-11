@@ -1,14 +1,15 @@
-from django.shortcuts import render
-from django.contrib.auth.models import User#ユーザー機能のライブラリ
-from django.db import IntegrityError
 from django.contrib.auth import authenticate, login, logout
-from django.shortcuts import redirect, get_object_or_404
-from .models import BoardModel
+from django.contrib.auth.models import User#ユーザー機能のライブラリ
 from django.contrib.auth.decorators import login_required
-from django.views.generic import CreateView
-from django.urls import reverse_lazy, reverse
 from django.contrib import messages  # メッセージフレームワークのインポート
-
+from django.db import IntegrityError
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import BoardModel
+from django.views.generic import CreateView
+from django.urls import reverse, reverse_lazy
+from django.views.decorators.csrf import csrf_exempt
+import google.oauth2.id_token
+import google.auth.transport.requests
 
 
 def signupfunc(request):
@@ -89,3 +90,34 @@ def deletefunc(request, pk):
     else:
         return redirect('detail', pk=pk)  # 投稿者でない場合、詳細ページに戻る
     
+@csrf_exempt
+def google_login(request):
+    if request.method == 'POST':
+        id_token_str = request.POST.get('id_token')
+        try:
+            id_info = google.oauth2.id_token.verify_oauth2_token(
+                id_token_str,
+                google.auth.transport.requests.Request(),
+                'YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com'
+            )
+            
+            # ユーザー情報の取得
+            email = id_info.get('email')
+            name = id_info.get('name')
+            picture = id_info.get('picture')
+            
+            # ユーザーの作成または取得
+            user, created = User.objects.get_or_create(username=email, email=email)
+            if created:
+                user.first_name = name
+                user.save()
+            
+            # ログイン
+            login(request, user)
+            return redirect('home')  # ログイン後のリダイレクト先
+            
+        except ValueError:
+            # 無効なトークン
+            return redirect('login')  # エラーメッセージを表示することを推奨
+    
+    return redirect('login')

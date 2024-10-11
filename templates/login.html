@@ -21,11 +21,31 @@
         <button class="btn btn-lg btn-primary btn-block" type="submit">Log in</button>
         
         <p class="mt-5 mb-3 text-muted">&copy; 2017-2020</p>
-        
+        <!-- Google ログイン追加 -->
+        <div class="g-signin2" data-onsuccess="onSignIn"></div>
         <!-- サインアップへのリンクを追加 -->
         <div class="mt-2">
             <a href="{% url 'signup' %}" class="btn btn-sm btn-secondary">Sign up</a>
         </div>
     </form>
+    <!-- トークン送信用のフォーム -->
+    <form id="google-signin-form" action="{% url 'google_login' %}" method="post" style="display:none;">
+        {% csrf_token %}
+        <input type="hidden" name="id_token" value="">
+    </form>
+    <script>
+        function onSignIn(googleUser) {
+            var profile = googleUser.getBasicProfile();
+            console.log('ID: ' + profile.getId());
+            console.log('Name: ' + profile.getName());
+            console.log('Image URL: ' + profile.getImageUrl());
+            console.log('Email: ' + profile.getEmail());
+            
+            var id_token = googleUser.getAuthResponse().id_token;
+            var form = document.getElementById('google-signin-form');
+            form.id_token.value = id_token;
+            form.submit();
+        }
+    </script>
 </body>
 {% endblock content %}
