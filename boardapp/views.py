@@ -6,8 +6,12 @@ from django.db import IntegrityError
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import BoardModel
 from django.views.generic import CreateView
-from django.urls import reverse, reverse_lazy
 from django.views.decorators.csrf import csrf_exempt
+from django.urls import reverse, reverse_lazy
+from django.conf import settings
+from django.http import FileResponse, Http404
+from pathlib import Path
+import os
 import google.oauth2.id_token
 import google.auth.transport.requests
 
@@ -121,3 +125,13 @@ def google_login(request):
             return redirect('login')  # エラーメッセージを表示することを推奨
     
     return redirect('login')
+
+def download_resume(request):
+    file_path = settings.MEDIA_ROOT / 'resumebox' / 'resume.pdf'  # 'resumebox' の中の 'resume.pdf'
+    if file_path.is_file():
+        try:
+            return FileResponse(open(file_path, 'rb'), as_attachment=True, filename='resume.pdf')
+        except Exception:
+            raise Http404("Resume could not be downloaded")
+    else:
+        raise Http404("Resume not found")
