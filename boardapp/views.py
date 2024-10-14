@@ -93,7 +93,32 @@ def deletefunc(request, pk):
         return redirect('list')
     else:
         return redirect('detail', pk=pk)  # 投稿者でない場合、詳細ページに戻る
-    
+
+def google_signup(request):
+    if request.method == "POST":
+        id_token_value = request.POST.get('id_token')
+        try:
+            # GoogleのIDトークンを検証
+            idinfo = id_token.verify_oauth2_token(id_token_value, requests.Request(), 
+            400933582445-gtabqlma3a9qlvrfteatt18iu7q39kju.apps.googleusercontent.com)
+
+            # ユーザー情報を取得
+            email = idinfo['email']
+            name = idinfo['name']
+
+            # ユーザーが存在しなければ新規作成
+            if not User.objects.filter(username=email).exists():
+                user = User.objects.create_user(username=email, email=email, password=None)
+                user.first_name = name
+                user.save()
+
+            # ログイン処理やリダイレクトを実行
+            return redirect('success_url')  # リダイレクト先を適宜設定
+        except ValueError:
+            return redirect('error_url')  # エラーページなど
+
+    return redirect('signup')
+
 @csrf_exempt
 def google_login(request):
     if request.method == 'POST':
@@ -102,8 +127,7 @@ def google_login(request):
             id_info = google.oauth2.id_token.verify_oauth2_token(
                 id_token_str,
                 google.auth.transport.requests.Request(),
-                'YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com'
-            )
+                400933582445-gtabqlma3a9qlvrfteatt18iu7q39kju.apps.googleusercontent.com)
             
             # ユーザー情報の取得
             email = id_info.get('email')

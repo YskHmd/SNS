@@ -1,7 +1,7 @@
 
 from django.urls import path
 from .views import signupfunc, loginfunc, listfunc, logoutfunc, detailfunc, goodfunc, readfunc
-from .views import BoardCreate, deletefunc, google_login, download_resume
+from .views import BoardCreate, deletefunc, google_signup, google_login, download_resume
 
 urlpatterns = [
     path('', loginfunc, name='home'),  # とりあえずログイン
@@ -15,6 +15,7 @@ urlpatterns = [
     path('create/', BoardCreate.as_view(), name = 'create'),
     path('delete/<int:pk>/', deletefunc, name='delete'),
     path('accounts/google/login/callback/', google_login, name='google_login'),
+    path('google-signup/', google_signup, name='google_signup'),
     path('download_resume/', download_resume, name='download_resume'),
 #reverseみたいに指定した名前から関数を呼び出すことができる
 ]
