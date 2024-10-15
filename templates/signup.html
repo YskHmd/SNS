@@ -30,9 +30,15 @@
         <div class="mt-3"></div>
         
         <!-- カスタムGoogleサインアップボタン -->
-        <button class="btn btn-light btn-block" onclick="signInWithGoogle()" type="button">
-            Google Sign up<!-- 「Google」と表示 -->
-        </button>
+        <div id="g_id_onload"
+             data-client_id="400933582445-gtabqlma3a9qlvrfteatt18iu7q39kju.apps.googleusercontent.com"
+             data-context="signup"
+             data-ux_mode="popup"
+             data-callback="handleCredentialResponse"
+             data-auto_prompt="false">
+        </div>
+        
+        <div class="g_id_signin" data-type="standard"></div>
         
         <!-- ログインへのリンクを追加 -->
         <div class="mt-4">
@@ -46,27 +52,17 @@
         <input type="hidden" name="id_token" value="">
     </form>
 
-    <!-- Google認証のスクリプト -->
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <!-- Google Identity Servicesのスクリプト -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script>
-      function signInWithGoogle() {
-        console.log("Google Sign-In button clicked");
-        gapi.auth2.getAuthInstance().signIn().then(function(googleUser) {
-            var id_token = googleUser.getAuthResponse().id_token;
-            console.log("ID Token: ", id_token);
+        function handleCredentialResponse(response) {
+            console.log("Encoded JWT ID token: " + response.credential);
+            
+            // フォームにトークンを挿入して送信
             var form = document.getElementById('google-signup-form');
-            form.id_token.value = id_token;
+            form.id_token.value = response.credential;
             form.submit();
-        }).catch(function(error) {
-            console.error('Google sign-in error: ', error);
-        });
         }
-    
-        gapi.load('auth2', function() {
-            gapi.auth2.init({
-                client_id: '400933582445-gtabqlma3a9qlvrfteatt18iu7q39kju.apps.googleusercontent.com'  // GoogleのクライアントIDを入れる
-            });
-        });
-   </script>    
+    </script>    
 </body>
 {% endblock content %}

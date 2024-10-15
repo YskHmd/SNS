@@ -94,13 +94,15 @@ def deletefunc(request, pk):
     else:
         return redirect('detail', pk=pk)  # 投稿者でない場合、詳細ページに戻る
 
+@csrf_exempt
 def google_signup(request):
     if request.method == "POST":
         id_token_value = request.POST.get('id_token')
-        try:
-            # GoogleのIDトークンを検証
-            idinfo = id_token.verify_oauth2_token(id_token_value, requests.Request(), 
-            400933582445-gtabqlma3a9qlvrfteatt18iu7q39kju.apps.googleusercontent.com)
+        try: # GoogleのIDトークンを検証
+            id_info = google.oauth2.id_token.verify_oauth2_token(
+                id_token_str,
+                google.auth.transport.requests.Request(),
+                400933582445-gtabqlma3a9qlvrfteatt18iu7q39kju.apps.googleusercontent.com)
 
             # ユーザー情報を取得
             email = idinfo['email']
@@ -114,8 +116,9 @@ def google_signup(request):
 
             # ログイン処理やリダイレクトを実行
             return redirect('success_url')  # リダイレクト先を適宜設定
-        except ValueError:
-            return redirect('error_url')  # エラーページなど
+        except ValueError as e:
+            print(f"Error during Google sign up: {e}")
+        return redirect('error_url')
 
     return redirect('signup')
 
