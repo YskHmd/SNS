@@ -62,7 +62,7 @@ def goodfunc(request, pk):
     object.save()#それをセーブする
     return redirect('list')
 
-def readfunc(request, pk):#初めては、押せる＋ユーザー名記録。押したことある人は何もしない、
+def readfunc(request, pk):#初めては押せる＋ユーザー名記録。押したことある人は何もしない、
     object = BoardModel.objects.get(pk=pk)
     username = request.user.get_username()
     if username in object.readtext:
@@ -153,12 +153,22 @@ def google_login(request):
     
     return redirect('login')
 
-def download_resume(request):
-    file_path = settings.MEDIA_ROOT / 'resumebox' / 'resume.pdf'  # 'resumebox' の中の 'resume.pdf'
+def download_link1(request):
+    file_path = settings.MEDIA_ROOT / 'resumebox' / '濱田職務経歴書.pdf'  # 'resumebox' の中の 'resume.pdf'
     if file_path.is_file():
         try:
-            return FileResponse(open(file_path, 'rb'), as_attachment=True, filename='resume.pdf')
+            return FileResponse(open(file_path, 'rb'), as_attachment=True, filename='濱田職務経歴書.pdf')
         except Exception:
             raise Http404("Resume could not be downloaded")
     else:
         raise Http404("Resume not found")
+
+def download_link2(request):
+    file_path = settings.MEDIA_ROOT / 'resumebox' / '濱田履歴書.pdf'  # 'resumebox' のなか
+    if file_path.is_file():
+        try:
+            return FileResponse(open(file_path, 'rb'), as_attachment=True, filename='濱田履歴書.pdf')
+        except Exception:
+            raise Http404("A file could not be downloaded")
+    else:
+        raise Http404("Link2 not found")

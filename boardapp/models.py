@@ -6,7 +6,7 @@ class BoardModel(models.Model):
     title = models.CharField(max_length=100)
     content = models.TextField()
     author = models.CharField(max_length=50)
-    sns_image = models.ImageField(upload_to='')#どこに保存するのか指定する引数必要
+    sns_image = models.ImageField(upload_to='', null=True, blank=True)#どこに保存するのか指定する引数必要
     #settings.pyで保存先を指定する場合はこの形でOK
     good = models.IntegerField(null=True, blank=True, default=1)
     read = models.IntegerField(null=True, blank=True, default=1)#既読の数を数える

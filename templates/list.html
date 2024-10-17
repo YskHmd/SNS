@@ -32,8 +32,8 @@
               職務経歴書
             </a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="{% url 'download_resume' %}">ダウンロード</a></li>
-              <li><a class="dropdown-item" href="#">Another action</a></li>
+              <li><a class="dropdown-item" href="{% url 'download_link1' %}">職務経歴書ダウンロード</a></li>
+              <li><a class="dropdown-item" href="{% url 'download_link2' %}">履歴書ダウンロード</a></li>
               <li><hr class="dropdown-divider"></li>
               <li><a class="dropdown-item" href="#">Something else here</a></li>
             </ul>
@@ -59,6 +59,7 @@
     {% for item in object_list %}<!views経由のmodel>
     <div class="alert alert-success" role="alert">
         <p>投稿者:{{ item.author }}</p>
+        <p>内容:{{ item.content }}</p>  <!-- ここで投稿の内容を表示 -->
         <a class="btn btn-primary" href="{% url 'detail' item.pk %}" role="button">詳細</a><!modelsやつを引っ張ってくる>
         <a class="btn btn-primary disabled"  role="button" aria-disabled="true">GOOD{{item.good}}件</a>
         <a class="btn btn-secondary disabled"  role="button" aria-disabled="true">READ{{item.read}}人</a>
