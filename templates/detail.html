@@ -15,7 +15,7 @@
         <p>投稿者:{{ object.author }}</p>
         <p><img src = "{{ object.sns_image.url }}"width=500></p>
         <a href="{% url 'good' object.pk %}" class="btn btn-primary " role="button" aria-disabled="true">GOOD</a>
-        <a href="{% url 'read' object.pk %}" class="btn btn-secondary " role="button" aria-disabled="true">READ</a>
+        {% comment %} <a href="{% url 'read' object.pk %}" class="btn btn-secondary " role="button" aria-disabled="true">READ</a> {% endcomment %}
         {% if user.username == object.author %} <!-- 投稿者本人の場合のみ削除ボタンを表示 -->
         <a href="{% url 'delete' object.pk %}" class="btn btn-danger" role="button" aria-disabled="true">削除</a>
         {% endif %}

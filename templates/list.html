@@ -9,15 +9,12 @@
 {% block content %}
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Navbar</a>
+      <a class="navbar-brand" href="{% url 'list' %}">HOME</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Home</a>
-          </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'create' %}">Post</a>
           </li>
@@ -58,11 +55,11 @@
 <div class='container'>
     {% for item in object_list %}<!views経由のmodel>
     <div class="alert alert-success" role="alert">
-        <p>投稿者:{{ item.author }}</p>
-        <p>内容:{{ item.content }}</p>  <!-- ここで投稿の内容を表示 -->
+        <p>@:{{ item.author }}</p>
+        <p>{{ item.content }}</p>  <!-- ここで投稿の内容を表示 -->
         <a class="btn btn-primary" href="{% url 'detail' item.pk %}" role="button">詳細</a><!modelsやつを引っ張ってくる>
         <a class="btn btn-primary disabled"  role="button" aria-disabled="true">GOOD{{item.good}}件</a>
-        <a class="btn btn-secondary disabled"  role="button" aria-disabled="true">READ{{item.read}}人</a>
+        {% comment %} <a class="btn btn-secondary disabled"  role="button" aria-disabled="true">READ{{item.read}}人</a> {% endcomment %}
     </div>
     {%endfor%}
     <!-- <div class="d-grid gap-2 d-md-flex justify-content-md-end">

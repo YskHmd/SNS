@@ -58,8 +58,14 @@ def detailfunc(request, pk):#urlsのpk
     
 def goodfunc(request, pk):
     object = BoardModel.objects.get(pk=pk)#get_object_or_404と意味は同じ
-    object.good = object.good + 1 #押されたら１足す
-    object.save()#それをセーブする
+    user = request.user
+    if user in object.good_users.all():# good_users を使って、すでに「Good」を押したか確認
+        return redirect('list')
+    else:   # まだ押していない場合は「Good」を増やし、ユーザーを追加
+        object.good = object.good + 1
+        object.good_users.add(user)
+        object.save()
+
     return redirect('list')
 
 def readfunc(request, pk):#初めては押せる＋ユーザー名記録。押したことある人は何もしない、
