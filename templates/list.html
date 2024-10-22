@@ -19,10 +19,10 @@
             <a class="nav-link" href="{% url 'create' %}">Post</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">History</a>
+            <a class="nav-link" href="https://github.com/YskHmd">Github Link</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Notion Link</a>
+            <a class="nav-link" href="https://www.notion.so/e9e1d02da1c94374baa564b42d316a75?pvs=4">Notion Link</a>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -32,11 +32,11 @@
               <li><a class="dropdown-item" href="{% url 'download_link1' %}">職務経歴書ダウンロード</a></li>
               <li><a class="dropdown-item" href="{% url 'download_link2' %}">履歴書ダウンロード</a></li>
               <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li>
+              {% comment %} <li><a class="dropdown-item" href="#">Something else here</a></li> {% endcomment %}
             </ul>
           </li>
           <li class="nav-item">
-            <a class="nav-link disabled">Disabled</a>
+            <a class="nav-link" href="#">other</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'logout' %}">Logout</a>
@@ -49,7 +49,6 @@
       </div>
     </div>
   </nav>
-<!-- <a class="btn btn-primary" href="{% url 'create' %}" role="button">POST</a> -->
 
 {% if user.is_authenticated %}<!trueかFalseで返ってくる。Trueは下記実行>
 <div class='container'>
@@ -62,9 +61,6 @@
         {% comment %} <a class="btn btn-secondary disabled"  role="button" aria-disabled="true">READ{{item.read}}人</a> {% endcomment %}
     </div>
     {%endfor%}
-    <!-- <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-        <a class="btn btn-dark" href="{% url 'logout' %}">Logout</a>
-    </div> -->
 
 </div>
 {% else %}<!Falseの場合>
