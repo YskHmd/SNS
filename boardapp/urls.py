@@ -1,7 +1,7 @@
 
 from django.urls import path
 from .views import signupfunc, loginfunc, listfunc, logoutfunc, detailfunc, goodfunc, readfunc
-from .views import BoardCreate, deletefunc, google_signup, google_login, download_link1, download_link2
+from .views import BoardCreate, deletefunc, google_signup, google_login, download_link1, download_link2, search_view
 
 urlpatterns = [
     path('', loginfunc, name='home'),  # とりあえずログイン
@@ -9,7 +9,7 @@ urlpatterns = [
     path('login/',loginfunc, name='login'),
     path('list/', listfunc, name='list'),
     path('logout/', logoutfunc, name = 'logout'),
-    path('detail/<int:pk>', detailfunc, name = 'detail'),
+    path('detail/<int:pk>', detailfunc, name = 'detail'),#reverseみたいに指定した名前から関数を呼び出すことができる
     path('good/<int:pk>', goodfunc, name = 'good'),
     path('read/<int:pk>', readfunc, name = 'read'),
     path('create/', BoardCreate.as_view(), name = 'create'),
@@ -18,6 +18,6 @@ urlpatterns = [
     path('google_signup/', google_signup, name='google_signup'),
     path('download_link1/', download_link1, name='download_link1'),
     path('download_link2/', download_link2, name='download_link2'),
+    path('search/', search_view, name='search'),
 
-#reverseみたいに指定した名前から関数を呼び出すことができる
 ]

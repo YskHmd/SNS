@@ -13,4 +13,7 @@ class BoardModel(models.Model):
     read = models.IntegerField(null=True, blank=True, default=1)#既読の数を数える
     readtext = models.TextField(null=True, blank=True, default='a')#既読を押した人の情報を記録
     
-    
+class Post(models.Model):
+    author = models.CharField(max_length=50)
+    title = models.CharField(max_length=100)
+    content = models.TextField()

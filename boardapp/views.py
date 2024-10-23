@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages  # メッセージフレームワークのインポート
 from django.db import IntegrityError
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import BoardModel
+from .models import BoardModel, Post
 from django.views.generic import CreateView
 from django.views.decorators.csrf import csrf_exempt
 from django.urls import reverse, reverse_lazy
@@ -178,3 +178,22 @@ def download_link2(request):
             raise Http404("A file could not be downloaded")
     else:
         raise Http404("Link2 not found")
+
+def search_view(request):
+    # 検索クエリを取得
+    query = request.GET.get('search', '')
+    
+    # クエリが存在する場合にフィルタリングを実行
+    if query:
+        filtered_posts = BoardModel.objects.filter(author__icontains=query) #| BoardModel.objects.filter(context__icontains=query)
+        print(f"検索クエリ: {query}, 検索結果数: {filtered_posts.count()}")
+    else:
+        filtered_posts = BoardModel.objects.all()  # クエリがない場合、すべての投稿を表示
+
+    # 結果をテンプレートに渡す
+    context = {
+        'object_list': filtered_posts,
+        'query': query,  # ユーザーが入力したクエリをテンプレートに表示
+    }
+    return render(request, 'list.html', context)
+
