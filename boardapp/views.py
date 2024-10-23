@@ -185,7 +185,7 @@ def search_view(request):
     
     # クエリが存在する場合にフィルタリングを実行
     if query:
-        filtered_posts = BoardModel.objects.filter(author__icontains=query) #| BoardModel.objects.filter(context__icontains=query)
+        filtered_posts = BoardModel.objects.filter(author__icontains=query) | BoardModel.objects.filter(content__icontains=query)
         print(f"検索クエリ: {query}, 検索結果数: {filtered_posts.count()}")
     else:
         filtered_posts = BoardModel.objects.all()  # クエリがない場合、すべての投稿を表示
