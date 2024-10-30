@@ -100,33 +100,37 @@ def deletefunc(request, pk):
     else:
         return redirect('detail', pk=pk)  # 投稿者でない場合、詳細ページに戻る
 
+from django.views.decorators.csrf import csrf_exempt
+
 @csrf_exempt
 def google_signup(request):
-    if request.method == "POST":
-        id_token_value = request.POST.get('id_token')
-        try: # GoogleのIDトークンを検証
+    id_token_value = request.GET.get('credential')
+    if id_token_value:
+        try:
             id_info = google.oauth2.id_token.verify_oauth2_token(
-                id_token_str,
+                id_token_value,
                 google.auth.transport.requests.Request(),
-                400933582445-gtabqlma3a9qlvrfteatt18iu7q39kju.apps.googleusercontent.com)
-
-            # ユーザー情報を取得
-            email = idinfo['email']
-            name = idinfo['name']
-
-            # ユーザーが存在しなければ新規作成
-            if not User.objects.filter(username=email).exists():
-                user = User.objects.create_user(username=email, email=email, password=None)
+                '400933582445-gtabqlma3a9qlvrfteatt18iu7q39kju.apps.googleusercontent.com'
+            )
+            # ユーザー情報の取得
+            email = id_info['email']
+            name = id_info.get('name', '')
+            
+            # ユーザーの作成または取得
+            user, created = User.objects.get_or_create(username=email, email=email)
+            if created:
                 user.first_name = name
                 user.save()
-
-            # ログイン処理やリダイレクトを実行
-            return redirect('success_url')  # リダイレクト先を適宜設定
+            
+            # ログイン
+            login(request, user)
+            return redirect('list')  # ログイン後のリダイレクト先
         except ValueError as e:
-            print(f"Error during Google sign up: {e}")
-        return redirect('error_url')
-
+            messages.error(request, f"Googleサインアップ中にエラーが発生しました: {e}")
+    else:
+        messages.error(request, "IDトークンが取得できませんでした。")
     return redirect('signup')
+
 
 @csrf_exempt
 def google_login(request):

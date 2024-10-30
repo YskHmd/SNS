@@ -1,9 +1,8 @@
 {% extends 'base.html' %}
-
 {% load static %}
 
 {% block customcss %}
-<link href="{% static 'style.css' %}" rel="stylesheet"> <!-- 共通CSSファイル -->
+<link href="{% static 'style.css' %}" rel="stylesheet">
 {% endblock customcss %}
 
 {% block content %}
@@ -30,12 +29,12 @@
         <div class="mt-3"></div>
         <div class="mt-3">Googleログイン作成中</div>
 
-        <!-- カスタムGoogleサインアップボタン -->
+        <!-- Google Sign-Inボタン -->
         <div id="g_id_onload"
              data-client_id="400933582445-gtabqlma3a9qlvrfteatt18iu7q39kju.apps.googleusercontent.com"
              data-context="signup"
-             data-ux_mode="popup"
-             data-callback="handleCredentialResponse"
+             data-ux_mode="redirect"
+             data-login_uri="http://127.0.0.1:8000/google_signup/"
              data-auto_prompt="false">
         </div>
         
@@ -47,23 +46,9 @@
         </div>
     </form>
 
-    <!-- トークン送信用のフォーム -->
-    <form id="google-signup-form" action="{% url 'google_signup' %}" method="post" style="display:none;">
-        {% csrf_token %}
-        <input type="hidden" name="id_token" value="">
-    </form>
-
+    <!-- 不要なフォームとスクリプトは削除 -->
+    
     <!-- Google Identity Servicesのスクリプト -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>
-    <script>
-        function handleCredentialResponse(response) {
-            console.log("Encoded JWT ID token: " + response.credential);
-            
-            // フォームにトークンを挿入して送信
-            var form = document.getElementById('google-signup-form');
-            form.id_token.value = response.credential;
-            form.submit();
-        }
-    </script>    
 </body>
 {% endblock content %}

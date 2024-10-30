@@ -27,6 +27,12 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['15.168.225.82', 'localhost', '127.0.0.1', 'hamada-dev.com', 'www.hamada-dev.com']
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://hamada-dev.com',
+    'https://www.hamada-dev.com',
+    'http://localhost:8000',
+    'http://127.0.0.1:8000',
+]
 
 # Application definition
 
