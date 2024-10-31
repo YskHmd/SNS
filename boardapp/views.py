@@ -104,6 +104,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 @csrf_exempt
 def google_signup(request):
+    print("google_signup called")
     id_token_value = request.GET.get('credential')
     if id_token_value:
         try:
