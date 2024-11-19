@@ -1,7 +1,7 @@
 
 from django.urls import path
 from .views import signupfunc, loginfunc, listfunc, logoutfunc, detailfunc, goodfunc, readfunc
-from .views import BoardCreate, deletefunc, google_signup, google_login, download_link1, download_link2, search_view
+from .views import BoardCreate, deletefunc, google_signup, google_login, download_link1, download_link2, search_view, experiment
 
 urlpatterns = [
     path('', signupfunc, name='home'),  # とりあえずログイン
@@ -19,5 +19,5 @@ urlpatterns = [
     path('download_link1/', download_link1, name='download_link1'),
     path('download_link2/', download_link2, name='download_link2'),
     path('search/', search_view, name='search'),
-
+    path('experiment/', experiment, name='experiment'),
 ]

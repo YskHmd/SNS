@@ -22,7 +22,7 @@
             <a class="nav-link" href="https://github.com/YskHmd">Github Link</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="https://rainy-caravan-e6f.notion.site/e9e1d02da1c94374baa564b42d316a75">Notion Link</a>
+            <a class="nav-link" href="https://www.notion.so/e9e1d02da1c94374baa564b42d316a75?pvs=4">Notion Link</a>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -42,26 +42,41 @@
             <a class="nav-link" href="{% url 'logout' %}">Logout</a>
           </li>
         </ul>
-        <form class="d-flex" method="get" action="{% url 'search' %}">
+        {% comment %} <form class="d-flex" method="get" action="{% url 'search' %}">
           <input class="form-control me-2" type="search" name="search" placeholder="search" aria-label="Search">
           <button class="btn btn-outline-success" type="submit">search</button>
-      </form>
+      </form> {% endcomment %}
       </div>
     </div>
   </nav>
 
-{% if user.is_authenticated %}<!trueかFalseで返ってくる。Trueは下記実行>
-<div class='container'>
-    {% for item in object_list %}<!views経由のmodel>
-    <div class="alert alert-success" role="alert">
-        <p>@:{{ item.author }}</p>
-        <p>{{ item.content }}</p>  <!-- ここで投稿の内容を表示 -->
-        <a class="btn btn-primary" href="{% url 'detail' item.pk %}" role="button">詳細</a><!modelsやつを引っ張ってくる>
-        <a class="btn btn-primary disabled"  role="button" aria-disabled="true">GOOD{{item.good}}件</a>
-        {% comment %} <a class="btn btn-secondary disabled"  role="button" aria-disabled="true">READ{{item.read}}人</a> {% endcomment %}
-    </div>
-    {%endfor%}
-</div>
+
+  {% if user.is_authenticated %}<!trueかFalseで返ってくる。Trueは下記実行>
+{% comment %} ここに書く {% endcomment %}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API実験中</title>
+  <style>
+    .api-status {
+      font-size: 1.5em;
+      font-weight: bold;
+      color: #ffffff;
+      background-color: #ff6347; /* 色*/
+      padding: 10px 20px;
+      border-radius: 5px;
+      display: inline-block;
+      text-align: center;
+      margin: 20px auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="api-status">API実験中</div>
+</body>
+</html>
 
 {% else %}<!Falseの場合>
 <p>Please login: <a href="{% url 'login' %}">HERE</a></p>

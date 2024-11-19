@@ -202,3 +202,6 @@ def search_view(request):
     }
     return render(request, 'list.html', context)
 
+def experiment(request):
+    return render(request, 'experiment.html')
+
