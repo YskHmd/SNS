@@ -4,7 +4,7 @@ from .views import signupfunc, loginfunc, listfunc, logoutfunc, detailfunc, good
 from .views import BoardCreate, deletefunc, google_signup, google_login, download_link1, download_link2, search_view, experiment
 
 urlpatterns = [
-    path('', signupfunc, name='home'),  # とりあえずログイン
+    path('', loginfunc, name='home'),  # とりあえずログイン
     path('signup/',signupfunc, name='signup'),
     path('login/',loginfunc, name='login'),
     path('list/', listfunc, name='list'),

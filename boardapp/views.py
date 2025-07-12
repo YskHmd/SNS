@@ -15,7 +15,6 @@ import os
 import google.oauth2.id_token
 import google.auth.transport.requests
 
-
 def signupfunc(request):
     if request.method == 'POST':
         username = request.POST['username']
